@@ -1,0 +1,4 @@
+qual o tamanho do gml para cada arquivo? Obs: cada arquivo esta associado a um
+dia.
+
+primeiramente criar a rede com FROM, TO e DURACAO

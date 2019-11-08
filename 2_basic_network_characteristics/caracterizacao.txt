@@ -1,0 +1,14 @@
+Considerando as duas metodologias de construcao do grafo (mutua e não mutua):
+    - Distribuicao de graus
+    - Distribuicao de peso
+    - Graus maximo e minimo
+    - Scatter plot de duração (duracao x qtidade)
+    
+Rodar deteccao de comunidades:
+    - Particionamento: comunity_mutilevel()
+        return_leve = True
+    - Observar o tamanho de cada comunidade
+    - Avaliar as comunidades encontradas pelo algoritmo e comunidades 
+        sklearn: nomralized_mutual_info_socre() 
+
+OBS: remover da rede nao mutua os nos com grau < 150 (numero de dunbar)

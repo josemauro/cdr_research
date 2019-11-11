@@ -1,0 +1,153 @@
+"""This script create one social network from files in "./data" folder and save
+this network in ncol file format called "graph.ncol".
+"""
+
+import csv
+from igraph import Graph
+
+def to_mutual(network):
+    """ Create a network where one edge only exists if there is a mutual call
+        between the nodes.
+    """
+    network = open("graph.ncol", "r").read().split('\n')
+    added_edges = []
+    new_network = []
+    for i in range(len(network)):
+        network[i] = network[i].split(' ')
+
+        if {network[i][0], network[i][1]} not in added_edges:
+            added_edges.append({network[i][0], network[i][1]})
+            new_network.append([network[i][0], network[i][1], network[i][2]])
+        else:
+            for edge in new_network:
+                if {network[i][0], network[i][1]} == {edge[0], edge[1]}:
+                    edge[2] = float(edge[2]) + float(network[i][2])
+                    break
+
+    """
+    num_lines = len(network)
+    set_a = {None}
+    new_network = []
+    added_edges = []    
+
+    for i in range(num_lines - 1):
+        '''Check if the current edge is equal the previously.'''
+        if set_a in added_edges:
+            continue
+
+        set_a = {network[i][0], network[i][1]}
+        new_edge = [network[i][0], network[i][1], network[i][2]]
+        more_than_one_edge = False
+        for j in range(i+1, num_lines):
+            
+            try:
+                set_b = {network[j][0], network[j][1]}
+            except:
+                continue
+            
+            if set_b in added_edges:
+                continue
+
+            if set_a == set_b:
+                more_than_one_edge = True
+                new_edge[2] = float(new_edge[2]) + float(network[j][2])
+        
+        if more_than_one_edge == True:
+            new_network.append(new_edge)
+            added_edges.append({new_edge[0], new_edge[1]}) 
+        network.remove(network[i]) 
+    
+    print(added_edges)
+    """
+    mutual_out_file = open('g_mutual.ncol','w')
+    
+    for row in new_network:
+        line = str(row[0]) + " " + str(row[1]) + " " + str(row[2]) + "\n"   
+        mutual_out_file.write(line)
+    mutual_out_file.close()
+
+                    
+
+files_list = []
+
+for file_name in ios.listdir("./data"):
+    if file_name.endswith(".out"):
+        files_list.append(file_name)
+
+ncol_out_file = open("graph.ncol","w")
+
+for file_name in files_list:
+    dir_name = "./data/" + file_name
+    with open(dir_name, 'r') as csvfile:
+        csv_read = csv.reader(csvfile, delimiter=';')
+        #add nodes
+        name_list = []
+        for row in csv_read:
+            line = row[4] + " " + row[6] + " " + row[2] + "\n" 
+            ncol_out_file.write(line)
+
+ncol_out_file.close()
+
+etwork = network_aux
+to_mutual(network)
+
+"""
+In (Onella, 2007) paper there are 2 types of network:
+
+    -Non-mutual: connected 2 users with an undirected link if there had been 
+     at least one phone call between. (A called B OR B called A)
+
+    -Mutual: connected 2 users with an undirected link if there had been at 
+    least one reciprocated pair of phone calls between them.
+    (A called B AND B called A)
+
+The social network created above (graph.ncol) in this script can be read in one
+of this two formats.
+"""
+
+
+# Code to read ncol file as non-mutual network:
+'''
+g_nonmutual = Graph()
+g_nonmutual.Read_Ncol("graph.ncol", weights=True, directed=True)
+g_nonmutual.to_undirected(mode="collapse", combine_edges="sum")
+
+'''
+
+
+# Code to read ncol file as mutual network:
+
+'''
+g_mutual = Graph()
+g_mutual = g_mutual.Read_Ncol("graph.ncol", weights=True, directed=True)
+
+edges_2delete = []
+
+for e in g_mutual.es:
+    if g_mutual.get_eid(e.target, e.source, directed=True, error=False) == -1:
+        edges_2delete.append(e)
+
+g_mutual.delete_edges(edges_2delete)
+
+g_mutual.to_undirected(mode="collapse", combine_edges="sum")
+'''
+
+'''
+Below we can see what igraph doc* says about 'mode' parameter in 
+the .to_undirected method:
+
+mode - specifies what to do with multiple directed edges going between the same
+vertex pair. True or "collapse" means that only a single edge should be created
+from multiple directed edges. False or "each" means that every edge will be 
+kept (with the arrowheads removed). "mutual" creates one undirected edge for 
+each mutual directed edge pair.mode - specifies what to do with multiple 
+directed edges going between the same vertex pair. True or "collapse" means 
+that only a single edge should be created from multiple directed edges. False 
+or "each" means that every edge will be kept (with the arrowheads removed). 
+"mutual" creates one undirected edge for each mutual 
+directed edge pair.
+
+*https://igraph.org/python/doc/igraph.GraphBase-class.html#Read_Ncol
+
+'''
+

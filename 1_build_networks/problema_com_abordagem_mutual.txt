@@ -1,0 +1,56 @@
+A abordagem usando to_undirected(mode=mutual) e depois simplify não funciona!! Se olharmos o caso da arestas arestas entre o vertice 0 e 1 temos 16 arestas:
+(0, 1)
+(0, 1)
+(1, 0)
+(0, 1)
+(0, 1)
+(0, 1)
+(1, 0)
+(0, 1)
+(1, 0)
+(0, 1)
+(0, 1)
+(0, 1)
+(0, 1)
+(1, 0)
+(1, 0)
+(0, 1)
+ 
+O desejado seria 8 arestas não direcionadas (juntando duas a duas!) porem somente 4 são criadas pq há somente quatro arestas (1,0) (o algoritmo cria arestas juntando (1,0) com (0,1)) 
+
+
+In [75]: 
+    ...: for e in g.es:
+    ...:     if (e.target==0 and e.source==1) or (e.target==1 and e.source==0):
+    ...:         print e
+    ...:         
+    ...:         
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8810>, 0, {'weight': 2.55})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8810>, 652424, {'weight': 105.5})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8810>, 1671351, {'weight': 3.95})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8810>, 2322379, {'weight': 0.35})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8810>, 3356730, {'weight': 1.4})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8810>, 5544201, {'weight': 0.73})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8810>, 5735081, {'weight': 0.07})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8810>, 11799729, {'weight': 46.13})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8810>, 20959469, {'weight': 28.07})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8810>, 21146263, {'weight': 1.0})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8810>, 26442057, {'weight': 9.78})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8810>, 26553897, {'weight': 15.2})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8810>, 29024857, {'weight': 0.65})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8810>, 29224621, {'weight': 3.57})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8810>, 30194177, {'weight': 0.8})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8810>, 31383203, {'weight': 1.72})
+
+In [76]: 
+    ...: for e in g_mutual.es:
+    ...:     if (e.target==0 and e.source==1) or (e.target==1 and e.source==0):
+    ...:         print e
+    ...:         
+    ...:         
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8bf0>, 0, {'weight': 2.52})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8bf0>, 1, {'weight': 4.22})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8bf0>, 2, {'weight': 43.269999999999996})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8bf0>, 3, {'weight': 9.85})
+igraph.Edge(<igraph.Graph object at 0x7f6ca35d8bf0>, 4, {'weight': 4.95})
+

@@ -1,0 +1,8 @@
+dado que a (2,3) existe em g e a (3,2) nao existe:
+
+  metodos   | existe aresta  |
+-----------------------------------
+g           |   sim          |
+g_mutual    |   nao          |
+g_collapse  |   sim          |
+

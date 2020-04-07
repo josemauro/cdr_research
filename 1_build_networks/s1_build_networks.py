@@ -1,6 +1,4 @@
-"""This script create one social network from files in "./data" folder and save
-this network in ncol file format called "graph.ncol".
-"""
+#This script create a network in './data' folder and save this in ncol.
 
 import csv, os, time
 from igraph import Graph
@@ -30,19 +28,19 @@ def process_cdr_data():
 
     print('Processing finished!')
 
-"""
-In (Onella, 2007) paper there are 2 types of network:
 
-    -Non-mutual: connected 2 users with an undirected link if there had been 
-     at least one phone call between. (A called B OR B called A)
+# In (Onella, 2007) paper there are 2 types of network:
+#
+#    -Non-mutual: connected 2 users with an undirected link if there had been 
+#     at least one phone call between. (A called B OR B called A)
+#
+#    -Mutual: connected 2 users with an undirected link if there had been at 
+#    least one reciprocated pair of phone calls between them.
+#    (A called B AND B called A)
+#
+# The social network created above (graph.ncol) in this script can be read in one
+# of this two formats.
 
-    -Mutual: connected 2 users with an undirected link if there had been at 
-    least one reciprocated pair of phone calls between them.
-    (A called B AND B called A)
-
-The social network created above (graph.ncol) in this script can be read in one
-of this two formats.
-"""
 
 def generate_nonmutual_network():
     # Code to read ncol file as non-mutual network:
@@ -92,22 +90,30 @@ def generate_mutual_network():
     # Simplifies a graph by removing self-loops and/or multiple edges. 
     g_mutual = g_mutual.simplify(multiple=True, loops=True, combine_edges="sum")
 
+    g_mutual.write_ncol('./out/g_mutual.ncol', names="name", weights="weight")
+
     largest = g_mutual.clusters().giant()
 
     largest.write_ncol('./out/largest_mutual.ncol', names="name", weights="weight")
     print('Finished!')
 
-'''
-https://igraph.org/python/doc/igraph.GraphBase-class.html
-'''
+
+#https://igraph.org/python/doc/igraph.GraphBase-class.html
+
+
 start_time = time.time()
 process_cdr_data()
-print("--- %s seconds ---" % (time.time() - start_time))
+
+sec = (time.time() - start_time)
+print(f"--- {sec} seconds ---")
 
 start_time = time.time()
 generate_nonmutual_network()
-print("--- %s seconds ---" % (time.time() - start_time))
+sec = (time.time() - start_time)
+print(f"--- {sec} seconds ---")
 
 start_time = time.time()
 generate_mutual_network()
-print("--- %s seconds ---" % (time.time() - start_time))
+sec = (time.time() - start_time)
+print("--- {sec} seconds ---")
+

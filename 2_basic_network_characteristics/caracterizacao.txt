@@ -1,8 +1,8 @@
 Considerando as duas metodologias de construcao do grafo (mutua e não mutua):
     - Distribuicao de graus
     - Distribuicao de peso
-    - Graus maximo e minimo
-    - Scatter plot de duração (duracao x qtidade)
+    - Graus maximo e minimo 
+    - Scatter plot de duração (duracao x qtidade) 
     
 Rodar deteccao de comunidades:
     - Particionamento: comunity_mutilevel()

@@ -31,11 +31,11 @@ def generate_id_locations():
 
 def write_file_mapping_id_locations(location_id_dict):
     '''Create a file named containing id and location in each line.'''
-    file_map_path = 'data/residencia_presumida_mapping'
-    
+    file_map_path = 'data/residencia_presumida_mapping.csv'
+
     with open(file_map_path, 'w') as file_write:
         for location, index in location_id_dict.items():
-            file_write.write(str(index) +'  ' + location + '\n')
+            file_write.write(str(index) +',' + location + '\n')
 
 def create_vertex_locations_dict():
     ''' Create a dict containing vertex as key and location as value..'''
@@ -45,7 +45,6 @@ def create_vertex_locations_dict():
         spamreader = csv.reader(csv_file, delimiter='\t')
         for row in spamreader:
             vertex_loc_list.append(row)
-
     vertex_loc_dict = dict(vertex_loc_list)
 
     return vertex_loc_dict
@@ -55,7 +54,7 @@ def add_location_in_network(network, vertex_loc_dict):
     network_name = network.split('.')[0]
 
     print(f'Getting location to {network_name} component of mutual network...')
-    
+
     g = Graph()
     file_network = f'./out/{network}'
     g = g.Read_Ncol(file_network, names=True, weights=True, directed=False)
@@ -86,7 +85,7 @@ write_file_mapping_id_locations(location_id_dict)
 vertex_loc_dict = create_vertex_locations_dict()
 
 #networks = ['largest_nonmutual.ncol', 'largest_mutual.ncol']
-networks = ['largest_mutual.ncol']
+networks = ['largest_rio_1d_nonmutual.ncol']
 
 for network in networks:
     add_location_in_network(network, vertex_loc_dict)

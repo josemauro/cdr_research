@@ -1,6 +1,6 @@
 
 data/
-out/
+out*/
 fg/
 *.ncol
 *.swp

@@ -1,5 +1,6 @@
 from igraph import Graph
 from unidecode import unidecode
+from geopy.geocoders import Nominatim
 
 import csv
 
@@ -29,13 +30,21 @@ def generate_id_locations():
 
     return location_id_dict
 
+
+def get_lat_long(location):
+    geolocator = Nominatim(user_agent="mestrado")
+    loc = geolocator.geocode(f'{location}, rio de janeiro')
+    return loc.latitude, loc.longitude
+
 def write_file_mapping_id_locations(location_id_dict):
     '''Create a file named containing id and location in each line.'''
     file_map_path = 'data/residencia_presumida_mapping.csv'
 
     with open(file_map_path, 'w') as file_write:
         for location, index in location_id_dict.items():
-            file_write.write(str(index) +',' + location + '\n')
+            lat, long = get_lat_long(location)
+            out = f'{index}, {location}, {lat}, {long}\n'
+            file_write.write(out)
 
 def create_vertex_locations_dict():
     ''' Create a dict containing vertex as key and location as value..'''

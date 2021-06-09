@@ -103,8 +103,8 @@ def generate_mutual_network(file_out):
     g_mutual = g_mutual.simplify(multiple=True, loops=True,
                                  combine_edges="sum")
 
-    g_mutual.write_ncol(f'./out/g_{file_out}.ncol', names="name",
-                        weights="weight")
+    g_mutual.write_ncol(f'./out/g_{file_out}_edges_collapsed.ncol',
+                        names="name", weights="weight")
 
     largest = g_mutual.clusters().giant()
 

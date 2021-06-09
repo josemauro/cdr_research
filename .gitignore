@@ -1,4 +1,11 @@
 env/
 all_data/
 networks/
-wip.txt
+legacy/
+outputs/
+*.gml
+*.gml
+*.csv
+
+
+
